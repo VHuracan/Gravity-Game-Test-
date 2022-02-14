@@ -40,12 +40,12 @@ public class PlayerController : MonoBehaviour
 
         if (isDown)
         {
-           rb.AddForce(0, speed, 0, ForceMode.Acceleration);
+           rb.AddForce(0, speed*Time.deltaTime, 0, ForceMode.Acceleration);
         }
 
         if (!isDown)
         {
-            rb.AddForce(0, -speed, 0,ForceMode.Acceleration);
+            rb.AddForce(0, -speed*Time.deltaTime, 0,ForceMode.Acceleration);
         }
 
     }
