@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,8 +18,8 @@ public class MapCreator : MonoBehaviour
     [SerializeField] private Transform platformPosA;
     [SerializeField] private Transform platformPosB;
     [Header("Created platforms arrays")]
-    public List<GameObject> arrayPlatformA = new List<GameObject>();
-    public List<GameObject> arrayPlatformB = new List<GameObject>();
+    private List<GameObject> arrayPlatformA = new List<GameObject>();
+    private List<GameObject> arrayPlatformB = new List<GameObject>();
 
     private GameObject player;
 
@@ -27,22 +28,29 @@ public class MapCreator : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         Debug.Log(player.name);
         CheckMapArray();
-       
+        StartCoroutine(CheckMap());
     }
     
     
-    void Update()
+
+    IEnumerator CheckMap()
     {
-        CheckMapArray();
+        while (true)
+        {
+            CheckMapArray();
+            yield return new WaitForSeconds(1);
+        }
     }
+    
+  
 
     private void CheckMapArray()
     {
         if (arrayPlatformA.Count < 10 )
         {
            
-                BlockCreator(platformPosA, arrayPlatformA, 15);
-                BlockCreator(platformPosB, arrayPlatformB, 15);
+                CreatorBlocks(platformPosA, arrayPlatformA, 15);
+                CreatorBlocks(platformPosB, arrayPlatformB, 15);
             
         }
 
@@ -50,13 +58,13 @@ public class MapCreator : MonoBehaviour
         {
             if (arrayPlatformA[arrayPlatformA.Count - 1].transform.position.x - player.transform.position.x < 100)
             {
-                BlockCreator(platformPosA, arrayPlatformA, 15);
+                CreatorBlocks(platformPosA, arrayPlatformA, 15);
 
             }
 
             if (arrayPlatformA[0].transform.position.x - player.transform.position.x > 100)
             {
-                BlockCleaner(arrayPlatformA, 5);
+                CleanerBlocks(arrayPlatformA, 5);
 
             }
         }
@@ -65,27 +73,27 @@ public class MapCreator : MonoBehaviour
         {
             if (arrayPlatformB[arrayPlatformB.Count - 1].transform.position.x - player.transform.position.x < 100)
             {
-                BlockCreator(platformPosB, arrayPlatformB, 15);
+                CreatorBlocks(platformPosB, arrayPlatformB, 15);
             }
 
             if (arrayPlatformB[0].transform.position.x - player.transform.position.x > 100)
             {
-                BlockCleaner(arrayPlatformB, 5);
+                CleanerBlocks(arrayPlatformB, 5);
             }
         }
 
     }
 
-    private void BlockCleaner(List<GameObject> createdBlocksList, int amount)
+    private void CleanerBlocks(List<GameObject> createdBlocksList, int amount)
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < amount; i++)
         {
             Destroy(createdBlocksList[0].gameObject);
             createdBlocksList.Remove(createdBlocksList[0]);
         }
     }
 
-    private void BlockCreator(Transform blockStandartPos, List<GameObject> createdBlocksList, int amount)
+    private void CreatorBlocks(Transform blockStandartPos, List<GameObject> createdBlocksList, int amount)
     {
         for (int i = 0; i < amount; i++)
         {

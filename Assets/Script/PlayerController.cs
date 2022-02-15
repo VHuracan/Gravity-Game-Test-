@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
    
@@ -13,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        rb = gameObject.GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         _menu = GameObject.FindWithTag("Canvas").GetComponent<Menu>();
     }
 
@@ -33,19 +34,19 @@ public class PlayerController : MonoBehaviour
         }
     }
  
-    private void Update()
+    private void FixedUpdate()
     {
 
         
 
         if (isDown)
         {
-           rb.AddForce(0, speed*Time.deltaTime, 0, ForceMode.Acceleration);
+           rb.AddForce(0, speed*Time.timeScale, 0, ForceMode.Acceleration);
         }
 
         if (!isDown)
         {
-            rb.AddForce(0, -speed*Time.deltaTime, 0,ForceMode.Acceleration);
+            rb.AddForce(0, -speed*Time.timeScale, 0,ForceMode.Acceleration);
         }
 
     }
