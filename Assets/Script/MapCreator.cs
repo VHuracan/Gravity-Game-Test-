@@ -18,14 +18,14 @@ public class MapCreator : MonoBehaviour
     [SerializeField] private Transform platformPosA;
     [SerializeField] private Transform platformPosB;
     [Header("Created platforms arrays")]
-    private List<GameObject> arrayPlatformA = new List<GameObject>();
-    private List<GameObject> arrayPlatformB = new List<GameObject>();
+    public List<GameObject> arrayPlatformA = new List<GameObject>();
+    public List<GameObject> arrayPlatformB = new List<GameObject>();
 
     private GameObject player;
 
     private void Awake()
     {
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("MainCamera");
         Debug.Log(player.name);
         CheckMapArray();
         StartCoroutine(CheckMap());
